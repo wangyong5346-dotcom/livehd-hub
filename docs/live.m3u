@@ -1,5 +1,5 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="CGN中文台" tvg-name="CGN中文台" tvg-logo="https://epg.112114.xyz/logo/CGN%E4%B8%AD%E6%96%87%E5%8F%B0.png" group-title="港澳台",CGN中文台 $[1080p|187ms|15.3M|87分]
+#EXTINF:-1 tvg-id="CGN中文台" tvg-name="CGN中文台" tvg-logo="https://epg.112114.xyz/logo/CGN%E4%B8%AD%E6%96%87%E5%8F%B0.png" group-title="港澳台",CGN中文台 $[1080p|200ms|6.0M|84分]
 https://d3e05csss9c272.cloudfront.net/out/v1/f0bf71c57581470fb9379f603e8f5d83/CGNWebLiveCN.m3u8
-#EXTINF:-1 tvg-id="TVBS Asia" tvg-name="TVBS Asia" tvg-logo="https://epg.112114.xyz/logo/TVBS%20Asia.png" group-title="港澳台",TVBS Asia $[1080p|72ms|30.0M|88分]
+#EXTINF:-1 tvg-id="TVBS Asia" tvg-name="TVBS Asia" tvg-logo="https://epg.112114.xyz/logo/TVBS%20Asia.png" group-title="港澳台",TVBS Asia $[1080p|130ms|11.6M|89分]
 http://38.64.72.148/hls/modn/list/4005/playlist.m3u8

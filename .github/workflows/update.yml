@@ -96,16 +96,32 @@ jobs:
       # 使用 GITHUB_TOKEN 的推送不会再触发本工作流，不会形成循环。
       - name: 提交订阅文件
         if: ${{ vars.PUBLISH_MODE != 'pages' }}
+        env:
+          BRANCH: ${{ github.ref_name }}
         run: |
           git config user.name "livehd-bot[bot]"
           git config user.email "livehd-bot[bot]@users.noreply.github.com"
-          git add docs
-          if git diff --cached --quiet; then
-            echo "本轮无变化，跳过提交"
-          else
-            git commit -m "chore: 自动更新高清直播订阅 [$(date -u +%Y-%m-%dT%H:%MZ)]"
-            git push
-          fi
+          # 并发运行时 checkout 的 SHA 可能已落后；每轮都基于远端最新分支重建提交，
+          # 消除 non-fast-forward 推送失败（自动回写型工作流最常见的抖动来源）。
+          for attempt in 1 2 3; do
+            git fetch origin "$BRANCH" --quiet
+            git reset --mixed "origin/$BRANCH" --quiet
+            git add docs
+            if git diff --cached --quiet; then
+              echo "本轮无变化，跳过提交"
+              exit 0
+            fi
+            git commit -q -m "chore: 自动更新高清直播订阅 [$(date -u +%Y-%m-%dT%H:%MZ)]"
+            if git push origin "HEAD:$BRANCH"; then
+              echo "订阅文件已推送到 $BRANCH"
+              exit 0
+            fi
+            echo "推送遇到并发更新，重试 ($attempt/3)"
+            git reset --mixed HEAD~1 --quiet
+            sleep 3
+          done
+          echo "::error::订阅文件推送失败，详情见上方 git 输出"
+          exit 1
 
       # 可选模式：只部署 Pages，完全不写回 Git（fork 场景推荐）。
       - name: 配置 Pages

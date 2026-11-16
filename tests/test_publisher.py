@@ -89,5 +89,31 @@ class EmptyRepoTests(unittest.TestCase):
                 gh.request("GET", "/git/ref/heads/main", quiet_404=True)
 
 
+class PagesTests(unittest.TestCase):
+    class FakeGH:
+        def __init__(self, existing: bool):
+            self.existing = existing
+            self.calls: list[tuple[str, str, dict | None]] = []
+
+        def request(self, method, path, body=None, quiet_404=False):
+            self.calls.append((method, path, body))
+            if method == "GET":
+                return (200, {}) if self.existing else (404, {})
+            return 201, {}
+
+    def test_enable_pages_from_docs(self):
+        gh = self.FakeGH(existing=False)
+        self.assertTrue(pub.ensure_pages(gh, "alice", "demo", "main"))
+        self.assertTrue(any(
+            m == "POST" and p.endswith("/pages") and b["source"] == {"branch": "main", "path": "/docs"}
+            for m, p, b in gh.calls
+        ))
+
+    def test_reuse_existing_pages(self):
+        gh = self.FakeGH(existing=True)
+        self.assertTrue(pub.ensure_pages(gh, "alice", "demo", "main"))
+        self.assertFalse(any(m == "POST" for m, _, _ in gh.calls))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

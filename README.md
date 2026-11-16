@@ -125,7 +125,7 @@ python main.py --dry-run          # 结果写到 .tmp/dryrun，不污染 docs
 
 ### 方式 A：一键脚本（推荐）
 
-`scripts/publish_github.py` 会用一条命令完成：创建仓库 → 推送 `main` → 开启 Actions 写权限 → 启用 `update.yml` → 触发首次运行 → 打印固定订阅链接。凭据只存在于进程内存，不写入文件、不打印，也不会出现在 git remote 里。
+`scripts/publish_github.py` 会用一条命令完成：创建仓库 → 推送 `main` → 开启 Actions 写权限 → 启用 `update.yml` → **自动启用 Pages（默认分支 `/docs`）** → 触发首次运行 → 打印固定订阅链接。凭据只存在于进程内存，不写入文件、不打印，也不会出现在 git remote 里。脚本会自动处理「新建空仓库 Git 数据库未激活」（`409 Git Repository is empty`），并跟随仓库实际默认分支。
 
 ```bash
 python3 scripts/publish_github.py --check                    # 先预检本地状态与凭据
@@ -151,7 +151,7 @@ GITHUB_TOKEN=<PAT> python3 scripts/publish_github.py --repo <OWNER>/livehd-hub
 2. **Settings → Actions → General → Workflow permissions** 勾选 **Read and write permissions**（提交 `docs/` 需要写权限）。
 3. **启用数据源**：编辑 `config/sources.json`（不启用任何源时，生成的是空列表 + 状态报告，属正常行为）。
 4. **Actions → 更新高清直播订阅 → Run workflow** 手动跑一次；之后按 `cron: 17 */6 * * *`（UTC 00/06/12/18:17，即北京时间约 2/8/14/20 点）自动运行，配置变更推送也会立即触发。
-5. **（可选）Pages 模式**：若不想把生成物提交回 Git（例如 fork 场景），在 **Settings → Secrets and variables → Actions → Variables** 新建仓库变量 `PUBLISH_MODE = pages`（或 `both`），并在 **Settings → Pages** 把 Source 设为 **GitHub Actions**。该模式完全不写回仓库，仅用 Pages Artifact 发布。
+5. **Pages（一键脚本已自动配置）**：默认设为 *Deploy from a branch → `main` / `docs`*，状态页与订阅文件同址发布，生成物提交回仓库后 Pages 自动重建。若不想把生成物写回 Git（例如 fork 场景），改用 Artifact 模式：在 **Settings → Secrets and variables → Actions → Variables** 新建仓库变量 `PUBLISH_MODE = pages`（或 `both`），并把 **Settings → Pages** 的 Source 改为 **GitHub Actions**；此时请只使用 Pages 链接，raw 链接不再更新。
 6. 在每次运行的 **Step Summary** 里直接复制固定订阅链接。
 
 工作流内置：离线自测 → 历史状态缓存（`actions/cache`）→ 采集质检 → 提交/Pages 发布 → 输出订阅链接。`timeout-minutes: 25`，流水线自身还有 `--time-budget 780` 秒的软预算。
@@ -160,7 +160,20 @@ GITHUB_TOKEN=<PAT> python3 scripts/publish_github.py --repo <OWNER>/livehd-hub
 
 ## 七、固定订阅链接（地址不变，内容定时刷新）
 
-把 `<OWNER>/<REPO>` 换成你的仓库：
+**已部署实例（2026-11-16 上线，仓库 `wangyong5346-dotcom/livehd-hub`）**：
+
+| 用途 | 固定链接 |
+| --- | --- |
+| M3U（raw） | `https://raw.githubusercontent.com/wangyong5346-dotcom/livehd-hub/main/docs/live.m3u` |
+| M3U（jsDelivr CDN） | `https://cdn.jsdelivr.net/gh/wangyong5346-dotcom/livehd-hub@main/docs/live.m3u` |
+| TXT | `https://raw.githubusercontent.com/wangyong5346-dotcom/livehd-hub/main/docs/live.txt` |
+| M3U（Pages） | `https://wangyong5346-dotcom.github.io/livehd-hub/live.m3u` |
+| 状态页 / 质量报告 | `https://wangyong5346-dotcom.github.io/livehd-hub/` · `docs/status.json` |
+| Actions 运行记录 | `https://github.com/wangyong5346-dotcom/livehd-hub/actions/workflows/update.yml` |
+
+> 上线时 `config/sources.json` 全部关闭，因此订阅文件是空的（仅 `#EXTM3U`），这是合规设计的**预期状态**。启用自有或已授权数据源后，下一次定时运行（或手动 `Run workflow`）即会填充通过 1080p 复核的源。
+
+通用模板 —— 把 `<OWNER>/<REPO>` 换成你的仓库：
 
 | 用途 | 链接 |
 | --- | --- |
@@ -179,6 +192,7 @@ GITHUB_TOKEN=<PAT> python3 scripts/publish_github.py --repo <OWNER>/livehd-hub
 | 现象 | 检查 |
 | --- | --- |
 | 订阅是空的 | `config/sources.json` 是否启用源；看 `docs/status.json` 的 `collect.errors` 与 `reject_reasons` |
+| Actions 在「提交订阅文件」步骤失败 | 多为两次运行并发导致 push 非快进；工作流已改为每轮基于 `origin/main` 重建提交并重试 3 次。若仍失败，检查 Workflow permissions 是否为 Read and write |
 | 大量「ffprobe 未确认真实分辨率」 | runner 是否装好 ffprobe；或流需要 Referer（在 M3U 里用 `#KODIPROP`/`#EXTVLCOPT` 声明）；必要时 `--allow-unverified` |
 | 大量「下载速率不足」 | 把 `quality.min_speed_mbps` 调低（如 `0.2`），或源本身只允许特定地区访问 |
 | 运行太慢 | 降低 `quick_workers` / `max_candidates_per_channel` / `ffprobe_top_k`，缩短 `time_budget_seconds` |

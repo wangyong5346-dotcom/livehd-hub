@@ -181,6 +181,23 @@ def api_commit_all(gh: GitHub, owner: str, repo: str, branch: str = "main") -> i
     return len(entries)
 
 
+def ensure_pages(gh: GitHub, owner: str, repo: str, branch: str) -> bool:
+    """让状态页链接可用：从默认分支的 /docs 目录部署 Pages（legacy 模式）。"""
+    prefix = f"/repos/{owner}/{repo}"
+    status, _ = gh.request("GET", f"{prefix}/pages", quiet_404=True)
+    if status == 200:
+        return True
+    try:
+        gh.request("POST", f"{prefix}/pages", {
+            "build_type": "legacy",
+            "source": {"branch": branch, "path": "/docs"},
+        })
+        return True
+    except RuntimeError as exc:
+        print("  Pages 自动启用失败（可在 Settings → Pages 手动设为", branch, "/docs）:", str(exc)[:160])
+        return False
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="发布 LiveHD Hub 到 GitHub 并启用自动运行")
     parser.add_argument("--repo", help="目标仓库 owner/repo；省略则使用 <登录用户名>/livehd-hub")
@@ -280,6 +297,11 @@ def main() -> int:
         print(f"  工作流已启用: {target.get('name')}")
     else:
         print("  工作流尚未被 GitHub 索引，稍后会自动出现")
+
+    print("== 配置 Pages 状态页 ==")
+    pages_ok = ensure_pages(gh, owner, repo, branch)
+    print("  " + ("已启用/复用 Pages：默认分支 /docs，状态页与订阅文件同址发布"
+                  if pages_ok else "未启用，状态页链接暂不可用"))
 
     if not args.no_run:
         try:

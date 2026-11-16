@@ -1,7 +1,14 @@
 {
-  "_comment": "采集源清单。本工具不内置、不提供、不托管任何节目内容，请只填写你有权访问的公开/授权播放列表。enabled=false 的条目会被跳过。",
+  "_comment": "采集源清单。本工具不提供、不托管任何节目内容；此处仅登记使用者自行填写并确认有权访问的播放列表地址，使用者对其中的源及使用后果独立负责。enabled=false 的条目会被跳过。",
   "_formats": "playlist: 直接解析为频道流; subscription: 每行是一个新的 playlist 地址; github_dir: 从公开 GitHub 仓库目录发现 .m3u/.m3u8/.txt 文件",
   "sources": [
+    {
+      "name": "使用者配置的播放列表（频道范围由 config/channels.json 限定）",
+      "type": "playlist",
+      "url": "https://iptv.445569.xyz/live.m3u",
+      "format": "auto",
+      "enabled": true
+    },
     {
       "name": "示例：国际公开免费频道列表（请自行确认可用性后启用）",
       "type": "playlist",

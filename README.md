@@ -3,7 +3,7 @@
 自动从**你自己配置**的公开/授权播放列表中采集流地址，经过「响应速度 + 下载速率 + 多轮稳定性 + 真实分辨率」质检，只保留 **1080p 及以上**的可用源，生成固定不变的 M3U / TXT 订阅链接，并由 GitHub Actions 定时刷新。
 
 > ⚠️ **合规声明（务必先读）**
-> 本项目是一个**播放列表聚合与质量检测框架**，不收集、不存储、不托管、不分发任何电视节目内容，仓库内**不包含任何直播流地址**（`config/sources.json` 默认全部关闭）。
+> 本项目是一个**播放列表聚合与质量检测框架**，不收集、不存储、不托管、不分发任何电视节目内容；项目模板**不预置任何可用直播流地址**（`config/sources.json` 默认全部关闭），其中的源地址由使用者自行填写并启用。
 > 使用者必须只添加自己**有权访问**的公开或已授权播放列表，并遵守所在国家/地区的法律法规、版权要求以及 GitHub 服务条款；**不得用于传播未授权内容、绕过版权/地域保护措施或商业用途**。收到权利人通知时应立即从配置中移除相应源。使用者对自己配置的源及使用后果独立负责。
 
 ---
@@ -98,6 +98,8 @@ python main.py --dry-run          # 结果写到 .tmp/dryrun，不污染 docs
 
 ## 五、配置数据源（关键一步）
 
+> **当前实例的筛选范围**：`config/sources.json` 已启用一个由使用者提供的播放列表；`config/channels.json` 设为 `only_whitelist: true` 且 `allowed_groups: ["港澳台"]`，因此只保留 **CCTV-1～13** 与源内 **「港澳台频道」分组** 的频道，其余分组（卫视、地方台、点播、个人直播等）在归一化阶段即被丢弃。`allowed_groups` 按原始 `group-title` 关键字匹配整组频道，源更新后新增的同组频道会自动纳入，无需逐条枚举频道名。
+
 编辑 `config/sources.json`，把 `enabled` 改为 `true` 并填写你有合法访问权的地址：
 
 | `type` | 说明 | 关键字段 |
@@ -171,7 +173,7 @@ GITHUB_TOKEN=<PAT> python3 scripts/publish_github.py --repo <OWNER>/livehd-hub
 | 状态页 / 质量报告 | `https://wangyong5346-dotcom.github.io/livehd-hub/` · `docs/status.json` |
 | Actions 运行记录 | `https://github.com/wangyong5346-dotcom/livehd-hub/actions/workflows/update.yml` |
 
-> 上线时 `config/sources.json` 全部关闭，因此订阅文件是空的（仅 `#EXTM3U`），这是合规设计的**预期状态**。启用自有或已授权数据源后，下一次定时运行（或手动 `Run workflow`）即会填充通过 1080p 复核的源。
+> 当前实例启用了一个由使用者配置的播放列表，筛选范围限定为 **CCTV-1～13 与源内「港澳台频道」分组**；订阅文件只包含通过可用性检测与 **1080p 真实分辨率复核** 的源。实际频道数、分辨率分布与淘汰原因见状态页的 `status.json`。未通过质检的源不会进入订阅。
 
 通用模板 —— 把 `<OWNER>/<REPO>` 换成你的仓库：
 

@@ -1,29 +1,30 @@
 {
-  "_comment": "频道归一化规则。only_whitelist=false 时保留全部频道，白名单仅用于补充别名与分组；设为 true 时只输出 channels 中列出的频道。",
-  "only_whitelist": false,
+  "_comment": "频道筛选规则。only_whitelist=true 时只输出：channels 中列出的频道，或 group-title 命中 allowed_groups 的整组频道。本实例只保留 CCTV-1 至 CCTV-13 与源内『港澳台频道』分组。",
+  "only_whitelist": true,
+  "allowed_groups": ["港澳台"],
+  "allowed_group_name": "港澳台",
   "groups": [
     { "name": "央视", "keywords": ["CCTV", "央视", "中央"] },
+    { "name": "港澳台", "keywords": ["凤凰", "翡翠", "TVB", "ViuTV", "HOY", "RTHK", "澳门", "澳视", "TVBS", "东森", "中天", "中视", "华视", "民视", "三立"] },
     { "name": "卫视", "keywords": ["卫视"] },
-    { "name": "体育", "keywords": ["体育", "Sport", "ESPN", "足球", "篮球"] },
-    { "name": "影视", "keywords": ["电影", "影视", "Movie", "剧场"] },
     { "name": "新闻", "keywords": ["新闻", "News", "资讯"] },
-    { "name": "少儿", "keywords": ["少儿", "卡通", "动画", "Kids"] },
-    { "name": "港澳台", "keywords": ["凤凰", "翡翠", "台视", "中天"] },
-    { "name": "国际", "keywords": ["BBC", "CNN", "NHK", "DW", "France"] },
+    { "name": "体育", "keywords": ["体育", "Sport"] },
     { "name": "其他", "keywords": [] }
   ],
-  "aliases": {
-    "CCTV1": "CCTV-1",
-    "CCTV 1": "CCTV-1",
-    "CCTV-1 综合": "CCTV-1",
-    "中央一台": "CCTV-1",
-    "CCTV5": "CCTV-5",
-    "CCTV-5 体育": "CCTV-5",
-    "湖南卫视HD": "湖南卫视"
-  },
+  "aliases": {},
   "channels": [
-    { "name": "CCTV-1", "group": "央视", "aliases": ["CCTV1", "CCTV-1 综合", "中央一台"] },
-    { "name": "CCTV-5", "group": "体育", "aliases": ["CCTV5", "CCTV-5 体育"] },
-    { "name": "湖南卫视", "group": "卫视", "aliases": ["湖南卫视HD", "Hunan TV"] }
+    { "name": "CCTV-1", "group": "央视", "aliases": ["CCTV1", "CCTV 1", "CCTV1综合", "CCTV-1 综合", "中央一台"] },
+    { "name": "CCTV-2", "group": "央视", "aliases": ["CCTV2", "CCTV 2", "CCTV2财经", "CCTV-2 财经"] },
+    { "name": "CCTV-3", "group": "央视", "aliases": ["CCTV3", "CCTV 3", "CCTV3综艺", "CCTV-3 综艺"] },
+    { "name": "CCTV-4", "group": "央视", "aliases": ["CCTV4", "CCTV 4", "CCTV4中文国际", "CCTV-4 中文国际", "CCTV4欧洲", "CCTV4美洲"] },
+    { "name": "CCTV-5", "group": "央视", "aliases": ["CCTV5", "CCTV 5", "CCTV5体育", "CCTV-5 体育"] },
+    { "name": "CCTV-6", "group": "央视", "aliases": ["CCTV6", "CCTV 6", "CCTV6电影", "CCTV-6 电影"] },
+    { "name": "CCTV-7", "group": "央视", "aliases": ["CCTV7", "CCTV 7", "CCTV7国防军事", "CCTV-7 国防军事"] },
+    { "name": "CCTV-8", "group": "央视", "aliases": ["CCTV8", "CCTV 8", "CCTV8电视剧", "CCTV-8 电视剧"] },
+    { "name": "CCTV-9", "group": "央视", "aliases": ["CCTV9", "CCTV 9", "CCTV9纪录", "CCTV-9 纪录"] },
+    { "name": "CCTV-10", "group": "央视", "aliases": ["CCTV10", "CCTV 10", "CCTV10科教", "CCTV-10 科教"] },
+    { "name": "CCTV-11", "group": "央视", "aliases": ["CCTV11", "CCTV 11", "CCTV11戏曲", "CCTV-11 戏曲"] },
+    { "name": "CCTV-12", "group": "央视", "aliases": ["CCTV12", "CCTV 12", "CCTV12社会与法", "CCTV-12 社会与法"] },
+    { "name": "CCTV-13", "group": "央视", "aliases": ["CCTV13", "CCTV 13", "CCTV13新闻", "CCTV-13 新闻"] }
   ]
 }

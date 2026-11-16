@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import sys
 from pathlib import Path
@@ -70,9 +71,33 @@ def fake_deep(stream: Stream, cfg) -> DeepResult:
     return DeepResult(ok=True, width=1920, height=1080, codec="h264", fps=25)
 
 
+# 自测专用的固定频道规则：与使用者在 config/channels.json 里的筛选条件解耦，
+# 保证无论白名单怎么调整，Actions 里的「离线自测」步骤都能稳定通过。
+SELFTEST_CHANNELS: dict = {
+    "only_whitelist": False,
+    "groups": [
+        {"name": "央视", "keywords": ["CCTV", "央视", "中央"]},
+        {"name": "卫视", "keywords": ["卫视"]},
+        {"name": "体育", "keywords": ["体育"]},
+        {"name": "港澳台", "keywords": ["凤凰", "翡翠", "TVB"]},
+        {"name": "其他", "keywords": []},
+    ],
+    "aliases": {
+        "CCTV1": "CCTV-1", "CCTV 1": "CCTV-1", "CCTV1综合": "CCTV-1", "CCTV-1 综合": "CCTV-1", "中央一台": "CCTV-1",
+        "CCTV5": "CCTV-5", "CCTV-5 体育": "CCTV-5", "湖南卫视HD": "湖南卫视",
+    },
+    "channels": [
+        {"name": "CCTV-1", "group": "央视", "aliases": ["CCTV1", "CCTV-1 综合", "中央一台"]},
+        {"name": "CCTV-5", "group": "体育", "aliases": ["CCTV5", "CCTV-5 体育"]},
+        {"name": "湖南卫视", "group": "卫视", "aliases": ["湖南卫视HD"]},
+    ],
+}
+
+
 def run_selftest(cfg_path: str) -> dict:
     setup_logging(False)
     cfg = Config(cfg_path)
+    cfg.channels = copy.deepcopy(SELFTEST_CHANNELS)
     fixture = ROOT / "tests" / "fixtures" / "sample.m3u"
     cfg.sources["sources"] = [
         {

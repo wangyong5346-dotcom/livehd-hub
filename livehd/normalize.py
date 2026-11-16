@@ -53,6 +53,10 @@ def normalize(streams: list[Stream], cfg) -> tuple[dict[str, Channel], dict]:
         aliases.update({str(a): cname for a in item.get("aliases", [])})
         whitelist[cname] = Channel(name=cname, group=item.get("group", ""), logo=item.get("logo", ""), tvg_id=item.get("tvg_id", ""))
     only_whitelist = bool(rules.get("only_whitelist", False))
+    # 分组白名单：按原始 group-title 关键字保留整组频道（例如源里的「港澳台频道」）。
+    # 用于「只要某一地区全部频道、不便逐条枚举频道名」的场景，源更新后也能自动纳入新频道。
+    allowed_groups = [str(x) for x in rules.get("allowed_groups", []) if x]
+    allowed_group_name = str(rules.get("allowed_group_name", "港澳台"))
 
     channels: dict[str, Channel] = {}
     dropped = 0
@@ -63,11 +67,15 @@ def normalize(streams: list[Stream], cfg) -> tuple[dict[str, Channel], dict]:
         if not name:
             dropped += 1
             continue
-        if only_whitelist and name not in whitelist:
+        declared_group = stream.group or ""
+        in_allowed_group = bool(allowed_groups) and any(k in declared_group for k in allowed_groups)
+        if only_whitelist and name not in whitelist and not in_allowed_group:
             dropped += 1
             continue
         if name != normalize_text(raw):
             alias_hits += 1
+        if in_allowed_group and name not in whitelist:
+            stream.group = allowed_group_name
         group = guess_group(name, stream.group, groups, whitelist)
         stream.name = name
         stream.group = group

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import copy
 import json
 import os
 import sys
@@ -19,10 +20,17 @@ from livehd.pipeline import Pipeline  # noqa: E402
 from livehd.probe import analyze_hls  # noqa: E402
 from livehd.score import compute_score, hard_gate, select_top  # noqa: E402
 from livehd.state import QualityState  # noqa: E402
-from main import fake_deep, fake_quick  # noqa: E402
+from main import SELFTEST_CHANNELS, fake_deep, fake_quick  # noqa: E402
 
 FIXTURES = ROOT / "tests" / "fixtures"
 SETTINGS = ROOT / "config" / "settings.json"
+
+
+def isolated_config() -> Config:
+    """固定频道规则，与使用者实际配置的白名单解耦。"""
+    cfg = Config(SETTINGS)
+    cfg.channels = copy.deepcopy(SELFTEST_CHANNELS)
+    return cfg
 
 
 class ParseTests(unittest.TestCase):
@@ -58,7 +66,7 @@ class ParseTests(unittest.TestCase):
 
 class NormalizeTests(unittest.TestCase):
     def test_alias_merge_and_group(self):
-        cfg = Config(SETTINGS)
+        cfg = isolated_config()
         text = (FIXTURES / "sample.m3u").read_text(encoding="utf-8")
         streams = collect.parse_m3u(text, "https://base.example/list.m3u", "unit")
         channels, report = normalize.normalize(streams, cfg)
@@ -68,11 +76,32 @@ class NormalizeTests(unittest.TestCase):
         self.assertGreaterEqual(report["alias_normalized"], 1)
 
     def test_whitelist_only_mode(self):
-        cfg = Config(SETTINGS)
+        cfg = isolated_config()
         cfg.channels["only_whitelist"] = True
         streams = collect.parse_m3u((FIXTURES / "sample.m3u").read_text(encoding="utf-8"), "https://b.example/x.m3u", "u")
         channels, _ = normalize.normalize(streams, cfg)
         self.assertNotIn("测试失效", channels)
+
+    def test_allowed_group_keeps_whole_group(self):
+        cfg = isolated_config()
+        cfg.channels["only_whitelist"] = True
+        cfg.channels["allowed_groups"] = ["港澳台"]
+        cfg.channels["allowed_group_name"] = "港澳台"
+        text = (
+            '#EXTM3U\n'
+            '#EXTINF:-1 group-title="🔮港澳台频道",翡翠台\nhttps://a.example/1.m3u8\n'
+            '#EXTINF:-1 group-title="🔮港澳台频道[翻]",凤凰中文\nhttps://a.example/2.m3u8\n'
+            '#EXTINF:-1 group-title="🇨🇳央卫视频道[1]",北京卫视\nhttps://a.example/3.m3u8\n'
+            '#EXTINF:-1 group-title="🇨🇳央卫视频道[1]",CCTV1综合\nhttps://a.example/4.m3u8\n'
+        )
+        streams = collect.parse_m3u(text, "https://b.example/x.m3u", "u")
+        channels, report = normalize.normalize(streams, cfg)
+        self.assertIn("翡翠台", channels)
+        self.assertIn("凤凰中文", channels)
+        self.assertEqual(channels["翡翠台"].group, "港澳台")
+        self.assertIn("CCTV-1", channels, "别名应命中 CCTV 白名单")
+        self.assertNotIn("北京卫视", channels, "非白名单且非允许分组的频道应被丢弃")
+        self.assertEqual(report["dropped"], 1)
 
 
 class ScoreTests(unittest.TestCase):
@@ -128,7 +157,7 @@ class StateTests(unittest.TestCase):
 
 class PipelineTests(unittest.TestCase):
     def test_offline_end_to_end(self):
-        cfg = Config(SETTINGS)
+        cfg = isolated_config()
         cfg.sources["sources"] = [{
             "name": "unit-local", "type": "playlist",
             "url": str(FIXTURES / "sample.m3u"), "format": "m3u", "enabled": True,

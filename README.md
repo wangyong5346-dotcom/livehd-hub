@@ -187,8 +187,12 @@ GITHUB_TOKEN=<PAT> python3 scripts/publish_github.py --repo <OWNER>/livehd-hub
 | 状态页 / 质量报告 | `https://wangyong5346-dotcom.github.io/livehd-hub/` · `docs/status.json` |
 | Actions 运行记录 | `https://github.com/wangyong5346-dotcom/livehd-hub/actions/workflows/update.yml` |
 
-> 当前实例启用了一个由使用者配置的播放列表，筛选范围限定为 **CCTV-1～13 与源内「港澳台频道」分组**；订阅文件只包含通过可用性检测与 **1080p 真实分辨率复核** 的源。
-> 2026-11-16 首次实测：归一化后 108 个频道 / 232 条候选，最终 **2 条 1080p 源**通过（均为港澳台频道）；CCTV-1～13 的候选多为运营商内网或失效地址，托管 runner 上不可达。逐项淘汰原因见 `status.json` 的 `reject_reasons`，处理办法见「八、排错」。
+> 当前实例启用了「使用者提供的播放列表 + 6 个公开索引分表」，筛选范围限定为 **CCTV-1～13 与港澳台地区频道**；订阅文件只包含通过可用性检测与 **ffprobe 真实 1080p 复核** 的源。
+> 2026-11-16 实测记录：
+> - 单源阶段：108 频道 / 232 条候选 → **2 条**通过。淘汰主因是「全部轮次不可达 144 + 速率不足 64」，判断为境内/运营商内网源在境外 runner 上不可达；把速率、延迟、超时阈值放宽后仍是 2 条，说明瓶颈在可达性而非阈值。
+> - 多源阶段（接入 `iptv-org` 的 CN/HK/TW/MO 分表、`best-fan` CCTV 专用清单、`vbskycn` IPv4 清单）：采集 7 个播放列表 / 4115 条原始流，归一化后 184 频道 / 423 条候选，进入质检 364 条、ffprobe 复核 69 条 → **20 条 1080p 源 / 11 个频道**通过，其中 CCTV-1/2/3/5/9/10/11/12/13 共 18 条，港澳台 CGNTV Chinese、TVBS Asia 共 2 条。分辨率分布 100% 为 1080p。
+>
+> 逐项淘汰原因见 `status.json` 的 `reject_reasons`。仍缺 CCTV-4/6/7/8 是因为这些台的候选在 runner 上不可达或达不到 1080p，不是筛选规则遗漏；补更多公网可达的源、或改用自建 runner（见「八、排错」）可继续补齐。
 
 通用模板 —— 把 `<OWNER>/<REPO>` 换成你的仓库：
 

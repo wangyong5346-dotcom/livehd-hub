@@ -173,7 +173,8 @@ GITHUB_TOKEN=<PAT> python3 scripts/publish_github.py --repo <OWNER>/livehd-hub
 | 状态页 / 质量报告 | `https://wangyong5346-dotcom.github.io/livehd-hub/` · `docs/status.json` |
 | Actions 运行记录 | `https://github.com/wangyong5346-dotcom/livehd-hub/actions/workflows/update.yml` |
 
-> 当前实例启用了一个由使用者配置的播放列表，筛选范围限定为 **CCTV-1～13 与源内「港澳台频道」分组**；订阅文件只包含通过可用性检测与 **1080p 真实分辨率复核** 的源。实际频道数、分辨率分布与淘汰原因见状态页的 `status.json`。未通过质检的源不会进入订阅。
+> 当前实例启用了一个由使用者配置的播放列表，筛选范围限定为 **CCTV-1～13 与源内「港澳台频道」分组**；订阅文件只包含通过可用性检测与 **1080p 真实分辨率复核** 的源。
+> 2026-11-16 首次实测：归一化后 108 个频道 / 232 条候选，最终 **2 条 1080p 源**通过（均为港澳台频道）；CCTV-1～13 的候选多为运营商内网或失效地址，托管 runner 上不可达。逐项淘汰原因见 `status.json` 的 `reject_reasons`，处理办法见「八、排错」。
 
 通用模板 —— 把 `<OWNER>/<REPO>` 换成你的仓库：
 
@@ -199,6 +200,8 @@ GITHUB_TOKEN=<PAT> python3 scripts/publish_github.py --repo <OWNER>/livehd-hub
 | 大量「下载速率不足」 | 把 `quality.min_speed_mbps` 调低（如 `0.2`），或源本身只允许特定地区访问 |
 | 运行太慢 | 降低 `quick_workers` / `max_candidates_per_channel` / `ffprobe_top_k`，缩短 `time_budget_seconds` |
 | 频道逐渐变少 | 属正常衰减；`state.py` 会在隔离期后自动复活源，也可多配置几个合规数据源 |
+| 大量「全部轮次不可达」 | 多为源的地域/防盗链限制。GitHub 托管 runner 位于境外，访问不到境内及运营商内网地址（如 `*.cmvideo.cn` 的 IPTV 源），换 UA / Referer 通常无效（实测 403 恒定）。两条出路：① 更换为公网可达的合规源；② 把 `.github/workflows/update.yml` 中 `runs-on: ubuntu-latest` 改为 `runs-on: self-hosted`，并在自己网络里配置自建 runner，使质检与播放处于同一网络 |
+| 「下载速率不足」偏多 | 跨洋链路吞吐天然偏低；已把 `min_speed_mbps` 调到 `0.3`。若仍为 0，通常是连上后读不到数据，本质仍是可达性问题 |
 
 ---
 

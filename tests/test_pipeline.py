@@ -124,8 +124,10 @@ class ScoreTests(unittest.TestCase):
 
     def test_latency_and_speed_gate(self):
         cfg = Config(SETTINGS)
-        self.assertFalse(hard_gate(self._item(latency=3000), cfg)[0])
-        self.assertFalse(hard_gate(self._item(speed=0.1), cfg)[0])
+        q = cfg["quality"]
+        # 用相对阈值构造越界样本，避免调整实际配置后测试失效
+        self.assertFalse(hard_gate(self._item(latency=float(q["max_latency_ms"]) + 1000), cfg)[0])
+        self.assertFalse(hard_gate(self._item(speed=max(0.0, float(q["min_speed_mbps"]) / 3)), cfg)[0])
         self.assertFalse(hard_gate(self._item(rate=0.5), cfg)[0])
 
     def test_select_top_limits_per_host(self):

@@ -1,0 +1,15 @@
+#EXTM3U
+#EXTINF:-1 tvg-id="CCTV-1" tvg-name="CCTV-1" tvg-logo="https://example.com/logo/cctv1.png" group-title="央视",CCTV-1 综合
+https://stream-a.example.com/live/cctv1.m3u8
+#EXTINF:-1 tvg-id="CCTV-1" group-title="央视",CCTV1 HD
+https://stream-b.example.com/live/cctv1_1080.m3u8
+#EXTINF:-1 tvg-id="CCTV-5" group-title="体育",CCTV-5 体育
+https://stream-a.example.com/live/cctv5.m3u8
+#EXTINF:-1 tvg-id="HunanTV" group-title="卫视",湖南卫视
+https://stream-c.example.com/live/hunan_4k.m3u8
+#EXTINF:-1 group-title="测试",测试低清
+https://stream-d.example.com/live/sd.m3u8
+#EXTINF:-1 group-title="测试",测试失效
+https://stream-e.example.com/live/bad.m3u8
+#EXTINF:-1 group-title="卫视",浙江卫视
+https://stream-f.example.com/live/zhejiang.m3u8

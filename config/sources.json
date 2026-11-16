@@ -1,0 +1,42 @@
+{
+  "_comment": "采集源清单。本工具不内置、不提供、不托管任何节目内容，请只填写你有权访问的公开/授权播放列表。enabled=false 的条目会被跳过。",
+  "_formats": "playlist: 直接解析为频道流; subscription: 每行是一个新的 playlist 地址; github_dir: 从公开 GitHub 仓库目录发现 .m3u/.m3u8/.txt 文件",
+  "sources": [
+    {
+      "name": "示例：国际公开免费频道列表（请自行确认可用性后启用）",
+      "type": "playlist",
+      "url": "https://iptv-org.github.io/iptv/index.m3u",
+      "format": "auto",
+      "enabled": false
+    },
+    {
+      "name": "本地自测样例（离线测试用，不产生网络请求）",
+      "type": "playlist",
+      "url": "tests/fixtures/sample.m3u",
+      "format": "m3u",
+      "enabled": false
+    },
+    {
+      "name": "示例：订阅源列表",
+      "type": "subscription",
+      "url": "",
+      "format": "txt",
+      "enabled": false
+    },
+    {
+      "name": "示例：GitHub 公开仓库目录发现",
+      "type": "github_dir",
+      "url": "",
+      "repo": "iptv-org/iptv",
+      "path": "",
+      "max_files": 12,
+      "enabled": false
+    }
+  ],
+  "blacklist": {
+    "_comment": "命中即丢弃：URL 关键字、域名关键字、频道名关键字",
+    "url_keywords": [],
+    "domains": [],
+    "channel_keywords": []
+  }
+}

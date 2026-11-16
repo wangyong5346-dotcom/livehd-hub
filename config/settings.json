@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "_comment": "LiveHD Hub 主配置。所有阈值均可按实际网络环境调整；默认开启 1080p 硬门槛。",
+  "sources_file": "config/sources.json",
+  "channels_file": "config/channels.json",
+  "output_dir": "docs",
+  "publish_folder": "docs",
+  "_publish_folder_note": "对外固定订阅链接指向的仓库内目录；试运行/自测写入临时目录时链接仍指向这里",
+  "state_file": ".state/quality.json",
+  "quality": {
+    "min_height": 1080,
+    "min_width": 1280,
+    "min_speed_mbps": 1.0,
+    "max_latency_ms": 1500,
+    "min_success_rate": 0.6,
+    "allow_unverified_resolution": false,
+    "trust_playlist_resolution": true
+  },
+  "probe": {
+    "rounds": 2,
+    "round_interval": 1.0,
+    "connect_timeout": 5,
+    "read_timeout": 8,
+    "sample_bytes": 262144,
+    "ffprobe_enabled": true,
+    "ffprobe_timeout": 12,
+    "ffprobe_top_k": 3,
+    "expand_hls_variants": false,
+    "max_candidates_per_channel": 12,
+    "time_budget_seconds": 780,
+    "quick_workers": 24,
+    "deep_workers": 6
+  },
+  "selection": {
+    "top_n": 3,
+    "max_per_host": 1,
+    "quarantine_failures": 4,
+    "quarantine_hours": 6,
+    "weights": {
+      "resolution": 0.30,
+      "latency": 0.25,
+      "speed": 0.20,
+      "stability": 0.15,
+      "history": 0.10
+    }
+  },
+  "output": {
+    "m3u": true,
+    "txt": true,
+    "json": true,
+    "html": true,
+    "tvg_url": "",
+    "show_quality_info": true,
+    "timezone": "Asia/Shanghai",
+    "title": "LiveHD 高清直播订阅"
+  },
+  "network": {
+    "user_agent": "Mozilla/5.0 (compatible; LiveHDHub/1.0; playlist-quality-check)",
+    "allow_local_files": true,
+    "max_source_bytes": 8388608,
+    "retry": 1,
+    "github_token_env": "GITHUB_TOKEN",
+    "github_api": "https://api.github.com"
+  }
+}

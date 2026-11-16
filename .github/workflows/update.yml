@@ -1,0 +1,141 @@
+name: 更新高清直播订阅
+
+# 每 6 小时（UTC）自动运行；也可手动触发，或修改配置后自动触发。
+# 重要：请在自己新建的独立仓库使用，不要在 fork 的仓库上加定时任务
+# （上游聚合项目普遍禁止 fork 定时回写，且 fork 默认禁用 schedule）。
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+    inputs:
+      min_height:
+        description: '最低真实分辨率（像素高度）'
+        required: false
+        default: '1080'
+      rounds:
+        description: '每条源的采样轮次'
+        required: false
+        default: '2'
+  push:
+    branches: [main]
+    paths:
+      - 'config/**'
+      - 'livehd/**'
+      - 'main.py'
+      - '.github/workflows/update.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: livehd-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: 准备 Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: 确认 ffprobe（Ubuntu runner 通常自带）
+        run: |
+          if ! command -v ffprobe >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          ffprobe -version | head -1
+
+      - name: 离线自测（保证流水线本身可用）
+        run: python main.py --self-test
+
+      - name: 恢复历史质量状态
+        uses: actions/cache/restore@v4
+        with:
+          path: .state
+          key: livehd-state-${{ github.repository }}-${{ github.run_id }}
+          restore-keys: |
+            livehd-state-${{ github.repository }}-
+
+      - name: 采集、质检并生成订阅
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+          TZ: Asia/Shanghai
+        run: |
+          python main.py \
+            --workers 24 \
+            --rounds "${{ github.event.inputs.rounds || '2' }}" \
+            --min-height "${{ github.event.inputs.min_height || '1080' }}" \
+            --time-budget 780 \
+            --top-n 3 \
+            --max-candidates 12
+
+      - name: 保存历史质量状态
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .state
+          key: livehd-state-${{ github.repository }}-${{ github.run_id }}
+
+      # 默认模式：把生成物提交回仓库，得到固定不变的 raw / jsDelivr 订阅链接。
+      # 使用 GITHUB_TOKEN 的推送不会再触发本工作流，不会形成循环。
+      - name: 提交订阅文件
+        if: ${{ vars.PUBLISH_MODE != 'pages' }}
+        run: |
+          git config user.name "livehd-bot[bot]"
+          git config user.email "livehd-bot[bot]@users.noreply.github.com"
+          git add docs
+          if git diff --cached --quiet; then
+            echo "本轮无变化，跳过提交"
+          else
+            git commit -m "chore: 自动更新高清直播订阅 [$(date -u +%Y-%m-%dT%H:%MZ)]"
+            git push
+          fi
+
+      # 可选模式：只部署 Pages，完全不写回 Git（fork 场景推荐）。
+      - name: 配置 Pages
+        if: ${{ vars.PUBLISH_MODE == 'pages' || vars.PUBLISH_MODE == 'both' }}
+        uses: actions/configure-pages@v5
+
+      - name: 上传 Pages 产物
+        if: ${{ vars.PUBLISH_MODE == 'pages' || vars.PUBLISH_MODE == 'both' }}
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: 部署 Pages
+        id: deployment
+        if: ${{ vars.PUBLISH_MODE == 'pages' || vars.PUBLISH_MODE == 'both' }}
+        uses: actions/deploy-pages@v4
+
+      - name: 输出固定订阅链接
+        run: |
+          OWNER="${GITHUB_REPOSITORY%%/*}"
+          REPO="${GITHUB_REPOSITORY##*/}"
+          {
+            echo "## LiveHD 高清订阅（本轮已完成）"
+            echo ""
+            echo "| 用途 | 固定链接 |"
+            echo "| --- | --- |"
+            echo "| M3U (raw) | https://raw.githubusercontent.com/${OWNER}/${REPO}/main/docs/live.m3u |"
+            echo "| M3U (jsDelivr, 国内较快) | https://cdn.jsdelivr.net/gh/${OWNER}/${REPO}@main/docs/live.m3u |"
+            echo "| TXT (raw) | https://raw.githubusercontent.com/${OWNER}/${REPO}/main/docs/live.txt |"
+            echo "| 状态页 | https://${OWNER}.github.io/${REPO}/ |"
+            echo ""
+            echo "地址固定不变，内容每 6 小时自动刷新。播放器只需订阅一次。"
+          } >> "$GITHUB_STEP_SUMMARY"

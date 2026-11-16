@@ -1,0 +1,29 @@
+{
+  "_comment": "频道归一化规则。only_whitelist=false 时保留全部频道，白名单仅用于补充别名与分组；设为 true 时只输出 channels 中列出的频道。",
+  "only_whitelist": false,
+  "groups": [
+    { "name": "央视", "keywords": ["CCTV", "央视", "中央"] },
+    { "name": "卫视", "keywords": ["卫视"] },
+    { "name": "体育", "keywords": ["体育", "Sport", "ESPN", "足球", "篮球"] },
+    { "name": "影视", "keywords": ["电影", "影视", "Movie", "剧场"] },
+    { "name": "新闻", "keywords": ["新闻", "News", "资讯"] },
+    { "name": "少儿", "keywords": ["少儿", "卡通", "动画", "Kids"] },
+    { "name": "港澳台", "keywords": ["凤凰", "翡翠", "台视", "中天"] },
+    { "name": "国际", "keywords": ["BBC", "CNN", "NHK", "DW", "France"] },
+    { "name": "其他", "keywords": [] }
+  ],
+  "aliases": {
+    "CCTV1": "CCTV-1",
+    "CCTV 1": "CCTV-1",
+    "CCTV-1 综合": "CCTV-1",
+    "中央一台": "CCTV-1",
+    "CCTV5": "CCTV-5",
+    "CCTV-5 体育": "CCTV-5",
+    "湖南卫视HD": "湖南卫视"
+  },
+  "channels": [
+    { "name": "CCTV-1", "group": "央视", "aliases": ["CCTV1", "CCTV-1 综合", "中央一台"] },
+    { "name": "CCTV-5", "group": "体育", "aliases": ["CCTV5", "CCTV-5 体育"] },
+    { "name": "湖南卫视", "group": "卫视", "aliases": ["湖南卫视HD", "Hunan TV"] }
+  ]
+}

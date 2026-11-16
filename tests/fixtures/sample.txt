@@ -1,0 +1,5 @@
+央视,#genre#
+CCTV-2,https://txt-a.example.com/cctv2.m3u8
+CCTV-2,https://txt-b.example.com/cctv2_backup.m3u8
+卫视,#genre#
+浙江卫视,https://txt-c.example.com/zhejiang.m3u8

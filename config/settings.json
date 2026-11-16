@@ -25,12 +25,12 @@
     "sample_bytes": 262144,
     "ffprobe_enabled": true,
     "ffprobe_timeout": 22,
-    "ffprobe_top_k": 3,
+    "ffprobe_top_k": 5,
     "expand_hls_variants": false,
     "max_candidates_per_channel": 12,
     "time_budget_seconds": 780,
     "quick_workers": 24,
-    "deep_workers": 6
+    "deep_workers": 8
   },
   "selection": {
     "top_n": 3,

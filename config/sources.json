@@ -1,6 +1,8 @@
 {
-  "_comment": "采集源清单。本工具不提供、不托管任何节目内容；此处仅登记使用者自行填写并确认有权访问的播放列表地址，使用者对其中的源及使用后果独立负责。enabled=false 的条目会被跳过。",
+  "_comment": "采集源清单。本工具不提供、不托管任何节目内容；此处仅登记使用者自行填写并确认有权访问的公开播放列表索引地址，使用者对其中的源及使用后果独立负责。enabled=false 的条目会被跳过。",
   "_formats": "playlist: 直接解析为频道流; subscription: 每行是一个新的 playlist 地址; github_dir: 从公开 GitHub 仓库目录发现 .m3u/.m3u8/.txt 文件",
+  "_default_group": "可选字段。为没有 group-title 的按地区分表补充分组标签，配合 config/channels.json 的 allowed_groups 使用。",
+  "_source_notes": "iptv-org/iptv 与 best-fan/iptv-sources、vbskycn/iptv 均为 GitHub 上公开的播放列表索引仓库（不托管视频内容，权利人可申请移除链接）。链接经 jsDelivr CDN 获取，便于 Actions runner 稳定拉取。",
   "sources": [
     {
       "name": "使用者配置的播放列表（频道范围由 config/channels.json 限定）",
@@ -10,10 +12,55 @@
       "enabled": true
     },
     {
-      "name": "示例：国际公开免费频道列表（请自行确认可用性后启用）",
+      "name": "iptv-org 中国大陆分表（公开索引，含 1080p 标注）",
       "type": "playlist",
-      "url": "https://iptv-org.github.io/iptv/index.m3u",
-      "format": "auto",
+      "url": "https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/cn.m3u",
+      "format": "m3u",
+      "enabled": true
+    },
+    {
+      "name": "iptv-org 中国香港分表（公开索引）",
+      "type": "playlist",
+      "url": "https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/hk.m3u",
+      "format": "m3u",
+      "default_group": "港澳台",
+      "enabled": true
+    },
+    {
+      "name": "iptv-org 中国台湾分表（公开索引）",
+      "type": "playlist",
+      "url": "https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/tw.m3u",
+      "format": "m3u",
+      "default_group": "港澳台",
+      "enabled": true
+    },
+    {
+      "name": "iptv-org 中国澳门分表（公开索引）",
+      "type": "playlist",
+      "url": "https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/mo.m3u",
+      "format": "m3u",
+      "default_group": "港澳台",
+      "enabled": true
+    },
+    {
+      "name": "best-fan CCTV 专用清单（公开索引，126 条央视频道）",
+      "type": "playlist",
+      "url": "https://cdn.jsdelivr.net/gh/best-fan/iptv-sources@main/cn_cctv.m3u8",
+      "format": "m3u",
+      "enabled": true
+    },
+    {
+      "name": "vbskycn IPv4 清单（公开索引，每日更新）",
+      "type": "playlist",
+      "url": "https://cdn.jsdelivr.net/gh/vbskycn/iptv@master/tv/iptv4.m3u",
+      "format": "m3u",
+      "enabled": true
+    },
+    {
+      "name": "备选：collect-tv-txt 全量聚合清单（2 万余条，体积大，默认关闭）",
+      "type": "playlist",
+      "url": "https://cdn.jsdelivr.net/gh/KimWang1978/collect-tv-txt@main/bbxx365.m3u",
+      "format": "m3u",
       "enabled": false
     },
     {
@@ -21,22 +68,6 @@
       "type": "playlist",
       "url": "tests/fixtures/sample.m3u",
       "format": "m3u",
-      "enabled": false
-    },
-    {
-      "name": "示例：订阅源列表",
-      "type": "subscription",
-      "url": "",
-      "format": "txt",
-      "enabled": false
-    },
-    {
-      "name": "示例：GitHub 公开仓库目录发现",
-      "type": "github_dir",
-      "url": "",
-      "repo": "iptv-org/iptv",
-      "path": "",
-      "max_files": 12,
       "enabled": false
     }
   ],

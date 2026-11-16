@@ -72,8 +72,15 @@ _QUALITY_MARK = re.compile(
 
 
 def strip_quality_mark(text: str) -> str:
-    """去掉频道名里的画质标记，返回不含画质词的干净名称。"""
+    """去掉频道名里的画质标记与常见元数据标记，返回干净名称。"""
     cleaned = _QUALITY_MARK.sub(" ", normalize_text(text))
+    # iptv-org 等公开索引会在名称里附加 [Geo-blocked] / [Not 24/7] 等状态标记
+    cleaned = re.sub(
+        r"\[[^\]]*(?:geo-?blocked|not\s*24/7|offline|down|backup|timeout)[^\]]*\]",
+        " ",
+        cleaned,
+        flags=re.I,
+    )
     cleaned = re.sub(r"[\[\(（]\s*[\]\)）]", " ", cleaned)
     cleaned = re.sub(r"[\s\-_|·,，]+$", "", cleaned)
     cleaned = re.sub(r"^[\s\-_|·,，]+", "", cleaned)

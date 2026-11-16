@@ -206,16 +206,21 @@ def discover_github_dir(source: dict, cfg) -> list[tuple[str, str]]:
     return files
 
 
-def _fetch_source(source: dict, cfg) -> list[tuple[str, str, str]]:
-    """返回 [(来源名, 内容, 基准 URL)]，一个订阅源可能展开成多个播放列表。"""
+def _fetch_source(source: dict, cfg) -> list[tuple[str, str, str, str]]:
+    """返回 [(来源名, 内容, 基准 URL, 默认分组)]，一个订阅源可能展开成多个播放列表。
+
+    default_group 用于给「没有 group-title 的按地区分表」补上分组标签，
+    例如 iptv-org 的 streams/hk.m3u，使频道白名单能按地区整表保留。
+    """
     net = cfg["network"]
     url = (source.get("url") or "").strip()
     name = source.get("name") or url
     fmt = source.get("format", "auto")
     kind = source.get("type", "playlist")
+    default_group = str(source.get("default_group", "") or "")
 
     if kind == "github_dir":
-        return [(f"{name}/{u.rsplit('/', 1)[-1]}", text, u) for u, text in discover_github_dir(source, cfg)]
+        return [(f"{name}/{u.rsplit('/', 1)[-1]}", text, u, default_group) for u, text in discover_github_dir(source, cfg)]
 
     if not url or not is_fetchable(url, allow_local=net["allow_local_files"]):
         LOG.warning("跳过无效或未启用的源: %s", name)
@@ -231,7 +236,7 @@ def _fetch_source(source: dict, cfg) -> list[tuple[str, str, str]]:
         allow_local=net["allow_local_files"],
     )
     if kind != "subscription":
-        return [(name, text, url)]
+        return [(name, text, url, default_group)]
 
     # 订阅源：每行是一个新的播放列表地址
     child_urls: list[str] = []
@@ -254,7 +259,7 @@ def _fetch_source(source: dict, cfg) -> list[tuple[str, str, str]]:
             user_agent=net["user_agent"],
             headers=source.get("headers"),
         )
-        return f"{name} -> {urllib.parse.urlparse(child).netloc}", body, child
+        return f"{name} -> {urllib.parse.urlparse(child).netloc}", body, child, default_group
 
     with ThreadPoolExecutor(max_workers=min(8, max(1, len(child_urls)))) as pool:
         futures = {pool.submit(fetch_child, c): c for c in child_urls}
@@ -300,13 +305,15 @@ def collect(cfg) -> tuple[list[Stream], dict]:
 
     seen: set[str] = set()
     streams: list[Stream] = []
-    for name, text, base in payloads:
+    for name, text, base, default_group in payloads:
         try:
             parsed = parse_playlist(text, base, name)
         except Exception as exc:
             errors.append(f"{name}: 解析失败 {exc}")
             continue
         for stream in parsed:
+            if default_group and not stream.group:
+                stream.group = default_group
             key = url_hash(stream.url)
             if key in seen or _is_blacklisted(stream, blacklist):
                 continue

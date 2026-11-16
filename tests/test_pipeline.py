@@ -194,5 +194,40 @@ class PipelineTests(unittest.TestCase):
         self.assertIn("alice.github.io", links["m3u_pages"])
 
 
+class SourceAdapterTests(unittest.TestCase):
+    """公开索引分表适配：名称标记清洗 + 源级默认分组。"""
+
+    def test_quality_and_status_marks_stripped(self):
+        from livehd.util import strip_quality_mark
+        self.assertEqual(strip_quality_mark("CCTV-13 (1080p) [Geo-blocked]"), "CCTV-13")
+        self.assertEqual(strip_quality_mark("HOY TV (1080p) [Not 24/7]"), "HOY TV")
+        self.assertEqual(normalize.canonical_name("CCTV-1 (1080p)", {}, {}), "CCTV-1")
+
+    def test_default_group_allows_group_whitelist(self):
+        cfg = isolated_config()
+        cfg.channels["only_whitelist"] = True
+        cfg.channels["allowed_groups"] = ["港澳台"]
+        cfg.channels["allowed_group_name"] = "港澳台"
+        cfg.channels["channels"] = []  # 白名单为空，只有分组白名单能放行
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "region.m3u"
+            path.write_text(
+                "#EXTM3U\n#EXTINF:-1,RTHK TV 31 (1080p) [Geo-blocked]\n"
+                "https://example.com/rthk31.m3u8\n",
+                encoding="utf-8",
+            )
+            cfg.sources["sources"] = [{
+                "name": "region", "type": "playlist", "url": str(path),
+                "format": "m3u", "default_group": "港澳台", "enabled": True,
+            }]
+            cfg.data["network"]["allow_local_files"] = True
+            streams, _ = collect.collect(cfg)
+            self.assertEqual(len(streams), 1)
+            self.assertEqual(streams[0].group, "港澳台")
+            channels, _ = normalize.normalize(streams, cfg)
+            self.assertIn("RTHK TV 31", channels)
+            self.assertEqual(channels["RTHK TV 31"].group, "港澳台")
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

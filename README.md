@@ -98,20 +98,34 @@ python main.py --dry-run          # 结果写到 .tmp/dryrun，不污染 docs
 
 ## 五、配置数据源（关键一步）
 
-> **当前实例的筛选范围**：`config/sources.json` 已启用一个由使用者提供的播放列表；`config/channels.json` 设为 `only_whitelist: true` 且 `allowed_groups: ["港澳台"]`，因此只保留 **CCTV-1～13** 与源内 **「港澳台频道」分组** 的频道，其余分组（卫视、地方台、点播、个人直播等）在归一化阶段即被丢弃。`allowed_groups` 按原始 `group-title` 关键字匹配整组频道，源更新后新增的同组频道会自动纳入，无需逐条枚举频道名。
+> **当前实例的筛选范围**：`config/channels.json` 设为 `only_whitelist: true` 且 `allowed_groups: ["港澳台"]`，因此只保留 **CCTV-1～13** 与 **港澳台地区频道**，其余分组（卫视、地方台、点播、个人直播等）在归一化阶段即被丢弃。`allowed_groups` 按 `group-title` 关键字匹配整组频道；对于没有 `group-title` 的按地区分表（如 iptv-org 的 `streams/hk.m3u`），可在 `sources.json` 里用 `default_group` 补上标签，源更新后新增频道会自动纳入。频道名里的 `(1080p)`、`[Geo-blocked]` 等标记会在归一化时剥离，因此 `CCTV-1 (1080p)` 能正确合并到 `CCTV-1`。
 
 编辑 `config/sources.json`，把 `enabled` 改为 `true` 并填写你有合法访问权的地址：
 
 | `type` | 说明 | 关键字段 |
 | --- | --- | --- |
-| `playlist` | 直接解析 M3U / TXT 播放列表 | `url`, `format`(auto/m3u/txt), 可选 `headers` |
+| `playlist` | 直接解析 M3U / TXT 播放列表 | `url`, `format`(auto/m3u/txt), 可选 `headers`、`default_group` |
 | `subscription` | 每行是一个新的播放列表地址，自动一层展开（最多 40 个） | `url` |
 | `github_dir` | 通过 GitHub API 发现公开仓库目录里的 `.m3u/.m3u8/.txt` | `repo`(owner/repo), `path`, `max_files` |
+
+**当前已启用的公开索引源**（2026-11-16 实测可达，均为 GitHub 上不托管视频内容的播放列表索引仓库，经 jsDelivr CDN 拉取以适配 Actions runner）：
+
+| 订阅地址 | 条目 | 用途 |
+| --- | --- | --- |
+| `https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/cn.m3u` | 518 | 大陆分表，含 1080p 标注的 CCTV 源 |
+| `https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/hk.m3u` | 26 | 中国香港分表 |
+| `https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/tw.m3u` | 56 | 中国台湾分表 |
+| `https://cdn.jsdelivr.net/gh/iptv-org/iptv@master/streams/mo.m3u` | 10 | 中国澳门分表 |
+| `https://cdn.jsdelivr.net/gh/best-fan/iptv-sources@main/cn_cctv.m3u8` | 126 | CCTV 专用清单，补齐 1～13 台冗余 |
+| `https://cdn.jsdelivr.net/gh/vbskycn/iptv@master/tv/iptv4.m3u` | 398 | IPv4 每日更新清单 |
+
+另有 `https://cdn.jsdelivr.net/gh/KimWang1978/collect-tv-txt@main/bbxx365.m3u`（2 万余条）与 `https://iptv-org.github.io/iptv/index.m3u`（全量总表）可作为备选，因体积过大、易超出质检时间预算而默认关闭。
 
 ```json
 {
   "sources": [
-    { "name": "我的授权源", "type": "playlist", "url": "https://your-domain/playlist.m3u", "format": "auto", "enabled": true }
+    { "name": "我的授权源", "type": "playlist", "url": "https://your-domain/playlist.m3u", "format": "auto", "enabled": true },
+    { "name": "地区分表", "type": "playlist", "url": "https://your-domain/hk.m3u", "format": "m3u", "default_group": "港澳台", "enabled": true }
   ],
   "blacklist": { "url_keywords": [], "domains": [], "channel_keywords": [] }
 }

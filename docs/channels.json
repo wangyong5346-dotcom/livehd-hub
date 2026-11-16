@@ -1,5 +1,50 @@
 {
   "title": "LiveHD 高清直播订阅",
-  "generated_at": "2026-11-16 14:20:53 CST",
-  "channels": []
+  "generated_at": "2026-11-16 14:38:56 CST",
+  "channels": [
+    {
+      "name": "CGN中文台",
+      "group": "港澳台",
+      "streams": [
+        {
+          "name": "CGN中文台",
+          "group": "港澳台",
+          "url": "https://d3e05csss9c272.cloudfront.net/out/v1/f0bf71c57581470fb9379f603e8f5d83/CGNWebLiveCN.m3u8",
+          "score": 87.01,
+          "resolution": "1920x1080",
+          "resolution_source": "ffprobe",
+          "latency_ms": 187.0,
+          "jitter_ms": 12.4,
+          "speed_mbps": 15.31,
+          "success_rate": 1.0,
+          "rounds": "2/2",
+          "history": 0.5,
+          "codec": "h264",
+          "reasons": []
+        }
+      ]
+    },
+    {
+      "name": "TVBS Asia",
+      "group": "港澳台",
+      "streams": [
+        {
+          "name": "TVBS Asia",
+          "group": "港澳台",
+          "url": "http://38.64.72.148/hls/modn/list/4005/playlist.m3u8",
+          "score": 87.77,
+          "resolution": "1920x1080",
+          "resolution_source": "ffprobe",
+          "latency_ms": 71.9,
+          "jitter_ms": 51.0,
+          "speed_mbps": 30.04,
+          "success_rate": 1.0,
+          "rounds": "2/2",
+          "history": 0.5,
+          "codec": "h264",
+          "reasons": []
+        }
+      ]
+    }
+  ]
 }

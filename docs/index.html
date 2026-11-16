@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LiveHD 高清直播订阅 - 运行状态</title>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body { margin:0; padding:32px; background:#f6f8fb; color:#16202e; font:15px/1.6 -apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; }
+.wrap { max-width:1180px; margin:0 auto; }
+h1 { font-size:24px; margin:0 0 6px; } .sub { color:#62728a; margin-bottom:24px; }
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-bottom:24px; }
+.card { background:#fff; border:1px solid #e3e9f2; border-radius:12px; padding:16px 18px; }
+.card b { display:block; font-size:26px; color:#1565d8; } .card span { color:#62728a; font-size:13px; }
+section { background:#fff; border:1px solid #e3e9f2; border-radius:12px; padding:18px 20px; margin-bottom:20px; }
+h2 { font-size:17px; margin:0 0 12px; }
+ul { list-style:none; padding:0; margin:0; }
+li { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px dashed #e8edf4; flex-wrap:wrap; }
+li span { width:150px; color:#62728a; font-size:13px; }
+code { background:#f2f5fa; padding:5px 8px; border-radius:6px; font-size:12px; overflow-wrap:anywhere; flex:1; }
+button { border:1px solid #c9d7ea; background:#fff; color:#1565d8; border-radius:6px; padding:5px 12px; cursor:pointer; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th,td { text-align:left; padding:9px 8px; border-bottom:1px solid #edf1f7; }
+th { color:#62728a; font-weight:600; background:#fafbfd; }
+.mono { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; }
+.small { font-size:12px; } .url { max-width:230px; }
+a { color:#1565d8; text-decoration:none; }
+.note { color:#62728a; font-size:13px; }
+</style></head><body><div class="wrap">
+<h1>LiveHD 高清直播订阅</h1>
+<div class="sub">最近更新：2026-11-16 14:14:01 CST · 自动运行 · 仅聚合用户自行配置的合法播放列表</div>
+<div class="cards">
+<div class="card"><b>0</b><span>频道</span></div>
+<div class="card"><b>0</b><span>可用高清源</span></div>
+<div class="card"><b>0</b><span>候选流</span></div>
+<div class="card"><b>0</b><span>快速探测通过</span></div>
+<div class="card"><b>0</b><span>ffprobe 复核</span></div>
+<div class="card"><b>0s</b><span>本轮耗时</span></div>
+</div>
+<section><h2>固定订阅链接（内容定时刷新，地址不变）</h2><ul><li><span>m3u_raw</span><code id='l-m3u_raw'>https://raw.githubusercontent.com/wangyong5346-dotcom/livehd-hub/main/docs/live.m3u</code><button onclick="copyLink('l-m3u_raw')">复制</button></li><li><span>m3u_jsdelivr</span><code id='l-m3u_jsdelivr'>https://cdn.jsdelivr.net/gh/wangyong5346-dotcom/livehd-hub@main/docs/live.m3u</code><button onclick="copyLink('l-m3u_jsdelivr')">复制</button></li><li><span>m3u_pages</span><code id='l-m3u_pages'>https://wangyong5346-dotcom.github.io/livehd-hub/live.m3u</code><button onclick="copyLink('l-m3u_pages')">复制</button></li><li><span>txt_raw</span><code id='l-txt_raw'>https://raw.githubusercontent.com/wangyong5346-dotcom/livehd-hub/main/docs/live.txt</code><button onclick="copyLink('l-txt_raw')">复制</button></li><li><span>txt_jsdelivr</span><code id='l-txt_jsdelivr'>https://cdn.jsdelivr.net/gh/wangyong5346-dotcom/livehd-hub@main/docs/live.txt</code><button onclick="copyLink('l-txt_jsdelivr')">复制</button></li><li><span>status_json</span><code id='l-status_json'>https://raw.githubusercontent.com/wangyong5346-dotcom/livehd-hub/main/docs/status.json</code><button onclick="copyLink('l-status_json')">复制</button></li></ul>
+<p class="note">分辨率分布：无 · 硬门槛：≥ 1080p，最长延迟 1500 ms</p></section>
+<section><h2>频道明细</h2><div style="overflow-x:auto"><table>
+<thead><tr><th>频道</th><th>分组</th><th>分辨率</th><th>评分</th><th>延迟</th><th>速率</th><th>成功率</th><th>分辨率依据</th><th>地址</th></tr></thead>
+<tbody><tr><td colspan="9">本轮无符合门槛的源，请检查源清单与阈值配置。</td></tr></tbody>
+</table></div></section>
+<p class="note">合规说明：本项目不提供、不托管任何节目内容；请仅添加有权访问的公开或已授权播放列表，并遵守所在地法律法规与平台条款。</p>
+</div><script>
+function copyLink(id) { const t=document.getElementById(id).textContent; navigator.clipboard.writeText(t).then(()=>{}); }
+</script></body></html>

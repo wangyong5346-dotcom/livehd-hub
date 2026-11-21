@@ -1,18 +1,7 @@
 央视,#genre#
-CCTV-1,https://yshipin.pages.dev/play/cctv1
-CCTV-10,https://yshipin.pages.dev/play/cctv10
-CCTV-11,https://yshipin.pages.dev/play/cctv11
-CCTV-12,https://yshipin.pages.dev/play/cctv12
-CCTV-13,https://yshipin.pages.dev/play/cctv13
-CCTV-13,https://event.pull.hebtv.com/jishi/cp1.m3u8
+CCTV-12,http://124.165.251.82:85/tsfile/live/0012_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV-13,http://ali-m-l.cztv.com/channels/lantian/channel21/1080p.m3u8
-CCTV-2,https://yshipin.pages.dev/play/cctv2
-CCTV-2,https://p2.bdstatic.com/rtmp.liveshow.lss-user.baidubce.com/live/stream_bduid_6488563992_8982723413/merged_1707497046297_88536_25144_41936.m3u8
-CCTV-3,https://yshipin.pages.dev/play/cctv3
-CCTV-4,https://yshipin.pages.dev/play/cctv4
-CCTV-7,https://yshipin.pages.dev/play/cctv7
-CCTV-8,https://yshipin.pages.dev/play/cctv8
-CCTV-9,https://yshipin.pages.dev/play/cctv9
+CCTV-13,https://event.pull.hebtv.com/jishi/cp1.m3u8
 港澳台,#genre#
 CGNTV Chinese,https://d3e05csss9c272.cloudfront.net/out/v1/f0bf71c57581470fb9379f603e8f5d83/CGNWebLiveCN.m3u8
 TVBS Asia,http://38.64.72.148/hls/modn/list/4005/playlist.m3u8

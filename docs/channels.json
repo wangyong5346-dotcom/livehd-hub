@@ -1,73 +1,7 @@
 {
   "title": "LiveHD 高清直播订阅",
-  "generated_at": "2026-11-21 08:02:35 CST",
+  "generated_at": "2026-11-21 15:20:18 CST",
   "channels": [
-    {
-      "name": "CCTV-1",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-1",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv1",
-          "score": 76.08,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 1250.0,
-          "jitter_ms": 205.2,
-          "speed_mbps": 13.35,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.567,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-10",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-10",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv10",
-          "score": 73.13,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 1384.2,
-          "jitter_ms": 341.8,
-          "speed_mbps": 13.91,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.777,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-11",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-11",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv11",
-          "score": 76.66,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 1277.3,
-          "jitter_ms": 91.8,
-          "speed_mbps": 7.39,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.455,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
     {
       "name": "CCTV-12",
       "group": "央视",
@@ -75,16 +9,16 @@
         {
           "name": "CCTV-12",
           "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv12",
-          "score": 61.01,
+          "url": "http://124.165.251.82:85/tsfile/live/0012_1.m3u8?key=txiptv&playlive=1&authid=0",
+          "score": 54.26,
           "resolution": "1920x1080",
           "resolution_source": "ffprobe",
-          "latency_ms": 1208.2,
-          "jitter_ms": 154.6,
-          "speed_mbps": 2.03,
+          "latency_ms": 1035.0,
+          "jitter_ms": 531.6,
+          "speed_mbps": 0.54,
           "success_rate": 1.0,
           "rounds": "2/2",
-          "history": 0.37,
+          "history": 0.98,
           "codec": "h264",
           "reasons": []
         }
@@ -97,16 +31,16 @@
         {
           "name": "CCTV-13",
           "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv13",
-          "score": 75.04,
+          "url": "http://ali-m-l.cztv.com/channels/lantian/channel21/1080p.m3u8",
+          "score": 70.53,
           "resolution": "1920x1080",
           "resolution_source": "ffprobe",
-          "latency_ms": 761.4,
-          "jitter_ms": 268.4,
-          "speed_mbps": 13.59,
+          "latency_ms": 1171.9,
+          "jitter_ms": 2.5,
+          "speed_mbps": 1.5,
           "success_rate": 1.0,
           "rounds": "2/2",
-          "history": 0.303,
+          "history": 0.973,
           "codec": "h264",
           "reasons": []
         },
@@ -114,179 +48,15 @@
           "name": "CCTV-13",
           "group": "央视",
           "url": "https://event.pull.hebtv.com/jishi/cp1.m3u8",
-          "score": 68.48,
+          "score": 55.62,
           "resolution": "1920x1080",
           "resolution_source": "ffprobe",
-          "latency_ms": 1107.8,
-          "jitter_ms": 14.8,
-          "speed_mbps": 1.79,
+          "latency_ms": 1637.8,
+          "jitter_ms": 295.6,
+          "speed_mbps": 1.16,
           "success_rate": 1.0,
           "rounds": "2/2",
-          "history": 0.686,
-          "codec": "h264",
-          "reasons": []
-        },
-        {
-          "name": "CCTV-13",
-          "group": "央视",
-          "url": "http://ali-m-l.cztv.com/channels/lantian/channel21/1080p.m3u8",
-          "score": 64.56,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 1416.1,
-          "jitter_ms": 176.7,
-          "speed_mbps": 1.95,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.961,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-2",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-2",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv2",
-          "score": 75.09,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 809.2,
-          "jitter_ms": 243.3,
-          "speed_mbps": 13.13,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.267,
-          "codec": "h264",
-          "reasons": []
-        },
-        {
-          "name": "CCTV-2",
-          "group": "央视",
-          "url": "https://p2.bdstatic.com/rtmp.liveshow.lss-user.baidubce.com/live/stream_bduid_6488563992_8982723413/merged_1707497046297_88536_25144_41936.m3u8",
-          "score": 61.15,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 2196.6,
-          "jitter_ms": 23.9,
-          "speed_mbps": 1.35,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.869,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-3",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-3",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv3",
-          "score": 86.79,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 599.5,
-          "jitter_ms": 7.5,
-          "speed_mbps": 13.4,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.58,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-4",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-4",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv4",
-          "score": 83.71,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 611.5,
-          "jitter_ms": 103.2,
-          "speed_mbps": 14.51,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.567,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-7",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-7",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv7",
-          "score": 73.3,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 1028.1,
-          "jitter_ms": 378.4,
-          "speed_mbps": 13.66,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.65,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-8",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-8",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv8",
-          "score": 85.7,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 807.1,
-          "jitter_ms": 60.2,
-          "speed_mbps": 14.55,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.777,
-          "codec": "h264",
-          "reasons": []
-        }
-      ]
-    },
-    {
-      "name": "CCTV-9",
-      "group": "央视",
-      "streams": [
-        {
-          "name": "CCTV-9",
-          "group": "央视",
-          "url": "https://yshipin.pages.dev/play/cctv9",
-          "score": 84.24,
-          "resolution": "1920x1080",
-          "resolution_source": "ffprobe",
-          "latency_ms": 614.5,
-          "jitter_ms": 12.2,
-          "speed_mbps": 13.05,
-          "success_rate": 1.0,
-          "rounds": "2/2",
-          "history": 0.35,
+          "history": 0.78,
           "codec": "h264",
           "reasons": []
         }
@@ -300,15 +70,15 @@
           "name": "CGNTV Chinese",
           "group": "港澳台",
           "url": "https://d3e05csss9c272.cloudfront.net/out/v1/f0bf71c57581470fb9379f603e8f5d83/CGNWebLiveCN.m3u8",
-          "score": 87.58,
+          "score": 75.82,
           "resolution": "1920x1080",
           "resolution_source": "ffprobe",
-          "latency_ms": 204.1,
-          "jitter_ms": 14.3,
-          "speed_mbps": 5.61,
+          "latency_ms": 271.4,
+          "jitter_ms": 43.0,
+          "speed_mbps": 1.44,
           "success_rate": 1.0,
           "rounds": "2/2",
-          "history": 0.993,
+          "history": 0.995,
           "codec": "h264",
           "reasons": []
         }
@@ -322,15 +92,15 @@
           "name": "TVBS Asia",
           "group": "港澳台",
           "url": "http://38.64.72.148/hls/modn/list/4005/playlist.m3u8",
-          "score": 95.22,
+          "score": 87.4,
           "resolution": "1920x1080",
           "resolution_source": "ffprobe",
-          "latency_ms": 24.8,
-          "jitter_ms": 1.2,
-          "speed_mbps": 31.83,
+          "latency_ms": 135.6,
+          "jitter_ms": 0.5,
+          "speed_mbps": 5.17,
           "success_rate": 1.0,
           "rounds": "2/2",
-          "history": 0.993,
+          "history": 0.995,
           "codec": "h264",
           "reasons": []
         }

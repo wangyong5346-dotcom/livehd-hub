@@ -1,33 +1,11 @@
 #EXTM3U
-#EXTINF:-1 tvg-id="CCTV-1" tvg-name="CCTV-1" tvg-logo="https://epg.112114.xyz/logo/CCTV-1%20%E7%BB%BC%E5%90%88.png" group-title="央视",CCTV-1 $[1080p|1250ms|13.3M|76分]
-https://yshipin.pages.dev/play/cctv1
-#EXTINF:-1 tvg-id="CCTV-10" tvg-name="CCTV-10" tvg-logo="https://epg.112114.xyz/logo/CCTV-10%20%E7%A7%91%E6%95%99.png" group-title="央视",CCTV-10 $[1080p|1384ms|13.9M|73分]
-https://yshipin.pages.dev/play/cctv10
-#EXTINF:-1 tvg-id="CCTV-11" tvg-name="CCTV-11" tvg-logo="https://epg.112114.xyz/logo/CCTV-11%20%E6%88%8F%E6%9B%B2.png" group-title="央视",CCTV-11 $[1080p|1277ms|7.4M|77分]
-https://yshipin.pages.dev/play/cctv11
-#EXTINF:-1 tvg-id="CCTV-12" tvg-name="CCTV-12" tvg-logo="https://epg.112114.xyz/logo/CCTV-12%20%E7%A4%BE%E4%BC%9A%E4%B8%8E%E6%B3%95.png" group-title="央视",CCTV-12 $[1080p|1208ms|2.0M|61分]
-https://yshipin.pages.dev/play/cctv12
-#EXTINF:-1 tvg-id="CCTV-13" tvg-name="CCTV-13" tvg-logo="https://epg.112114.xyz/logo/CCTV-13%20%E6%96%B0%E9%97%BB.png" group-title="央视",CCTV-13 $[1080p|761ms|13.6M|75分]
-https://yshipin.pages.dev/play/cctv13
-#EXTINF:-1 tvg-id="CCTV-13" tvg-name="CCTV-13" tvg-logo="https://gitee.com/mytv-android/myTVlogo/raw/main/img/CCTV13.png" group-title="央视",CCTV-13 $[1080p|1108ms|1.8M|68分]
-https://event.pull.hebtv.com/jishi/cp1.m3u8
-#EXTINF:-1 tvg-id="CCTV13" tvg-name="CCTV-13" tvg-logo="https://tb.zbds.top/logo/CCTV13.png" group-title="央视",CCTV-13 $[1080p|1416ms|1.9M|65分]
+#EXTINF:-1 tvg-id="CCTV12" tvg-name="CCTV-12" tvg-logo="https://tb.zbds.top/logo/CCTV12.png" group-title="央视",CCTV-12 $[1080p|1035ms|0.5M|54分]
+http://124.165.251.82:85/tsfile/live/0012_1.m3u8?key=txiptv&playlive=1&authid=0
+#EXTINF:-1 tvg-id="CCTV13" tvg-name="CCTV-13" tvg-logo="https://tb.zbds.top/logo/CCTV13.png" group-title="央视",CCTV-13 $[1080p|1172ms|1.5M|71分]
 http://ali-m-l.cztv.com/channels/lantian/channel21/1080p.m3u8
-#EXTINF:-1 tvg-id="CCTV-2" tvg-name="CCTV-2" tvg-logo="https://epg.112114.xyz/logo/CCTV-2%20%E8%B4%A2%E7%BB%8F.png" group-title="央视",CCTV-2 $[1080p|809ms|13.1M|75分]
-https://yshipin.pages.dev/play/cctv2
-#EXTINF:-1 tvg-id="CCTV-2" tvg-name="CCTV-2" tvg-logo="https://gitee.com/mytv-android/myTVlogo/raw/main/img/CCTV2.png" group-title="央视",CCTV-2 $[1080p|2197ms|1.3M|61分]
-https://p2.bdstatic.com/rtmp.liveshow.lss-user.baidubce.com/live/stream_bduid_6488563992_8982723413/merged_1707497046297_88536_25144_41936.m3u8
-#EXTINF:-1 tvg-id="CCTV-3" tvg-name="CCTV-3" tvg-logo="https://epg.112114.xyz/logo/CCTV-3%20%E7%BB%BC%E8%89%BA.png" group-title="央视",CCTV-3 $[1080p|600ms|13.4M|87分]
-https://yshipin.pages.dev/play/cctv3
-#EXTINF:-1 tvg-id="CCTV-4" tvg-name="CCTV-4" tvg-logo="https://epg.112114.xyz/logo/CCTV-4%20%E4%B8%AD%E6%96%87%E5%9B%BD%E9%99%85.png" group-title="央视",CCTV-4 $[1080p|612ms|14.5M|84分]
-https://yshipin.pages.dev/play/cctv4
-#EXTINF:-1 tvg-id="CCTV-7" tvg-name="CCTV-7" tvg-logo="https://epg.112114.xyz/logo/CCTV-7%20%E5%9B%BD%E9%98%B2%E5%86%9B%E4%BA%8B.png" group-title="央视",CCTV-7 $[1080p|1028ms|13.7M|73分]
-https://yshipin.pages.dev/play/cctv7
-#EXTINF:-1 tvg-id="CCTV-8" tvg-name="CCTV-8" tvg-logo="https://epg.112114.xyz/logo/CCTV-8%20%E7%94%B5%E8%A7%86%E5%89%A7.png" group-title="央视",CCTV-8 $[1080p|807ms|14.6M|86分]
-https://yshipin.pages.dev/play/cctv8
-#EXTINF:-1 tvg-id="CCTV-9" tvg-name="CCTV-9" tvg-logo="https://epg.112114.xyz/logo/CCTV-9%20%E7%BA%AA%E5%BD%95.png" group-title="央视",CCTV-9 $[1080p|614ms|13.0M|84分]
-https://yshipin.pages.dev/play/cctv9
-#EXTINF:-1 tvg-id="CGNTVChinese.tw@SD" tvg-name="CGNTV Chinese" group-title="港澳台",CGNTV Chinese $[1080p|204ms|5.6M|88分]
+#EXTINF:-1 tvg-id="CCTV-13" tvg-name="CCTV-13" tvg-logo="https://gitee.com/mytv-android/myTVlogo/raw/main/img/CCTV13.png" group-title="央视",CCTV-13 $[1080p|1638ms|1.2M|56分]
+https://event.pull.hebtv.com/jishi/cp1.m3u8
+#EXTINF:-1 tvg-id="CGNTVChinese.tw@SD" tvg-name="CGNTV Chinese" group-title="港澳台",CGNTV Chinese $[1080p|271ms|1.4M|76分]
 https://d3e05csss9c272.cloudfront.net/out/v1/f0bf71c57581470fb9379f603e8f5d83/CGNWebLiveCN.m3u8
-#EXTINF:-1 tvg-id="TVBSAsia.tw@SD" tvg-name="TVBS Asia" group-title="港澳台",TVBS Asia $[1080p|25ms|31.8M|95分]
+#EXTINF:-1 tvg-id="TVBSAsia.tw@SD" tvg-name="TVBS Asia" group-title="港澳台",TVBS Asia $[1080p|136ms|5.2M|87分]
 http://38.64.72.148/hls/modn/list/4005/playlist.m3u8

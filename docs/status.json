@@ -1,40 +1,40 @@
 {
-  "generated_at": "2026-11-23 03:48:13 CST",
+  "generated_at": "2026-11-23 15:50:32 CST",
   "title": "LiveHD 高清直播订阅",
-  "duration_seconds": 127.1,
+  "duration_seconds": 131.2,
   "min_height": 1080,
   "max_latency_ms": 3500,
   "collect": {
     "enabled_sources": 7,
     "fetched_playlists": 7,
-    "raw_streams": 4103,
+    "raw_streams": 4158,
     "errors": []
   },
   "normalize": {
     "channels": 184,
-    "streams": 408,
-    "alias_normalized": 279,
-    "dropped": 3695,
+    "streams": 411,
+    "alias_normalized": 282,
+    "dropped": 3747,
     "only_whitelist": true
   },
   "candidates": 362,
   "quarantined_skipped": 0,
-  "quick_passed": 101,
-  "deep_checked": 72,
-  "final_streams": 25,
-  "channels_with_result": 13,
+  "quick_passed": 97,
+  "deep_checked": 73,
+  "final_streams": 24,
+  "channels_with_result": 15,
   "resolution_distribution": {
-    "1080p": 25
+    "1080p": 24
   },
   "reject_reasons": {
     "清单标称分辨率低于 1080p": 48,
-    "多轮成功率不足": 5,
+    "多轮成功率不足": 7,
     "全部轮次不可达": 144,
-    "下载速率不足": 64,
-    "分辨率 480p < 1080p": 2,
-    "ffprobe 未确认真实分辨率": 34,
-    "分辨率 720p < 1080p": 22,
-    "分辨率 576p < 1080p": 14,
+    "下载速率不足": 66,
+    "分辨率 480p < 1080p": 3,
+    "分辨率 720p < 1080p": 21,
+    "ffprobe 未确认真实分辨率": 28,
+    "分辨率 576p < 1080p": 17,
     "分辨率 360p < 1080p": 1,
     "分辨率 240p < 1080p": 2
   },
